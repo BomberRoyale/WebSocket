@@ -1,7 +1,7 @@
 //import WebSocket from "ws";
 const WebSocket = require('ws');
 
-const socketPort = 3000;
+const socketPort = process.env.PORT || 3000;
 
 const server = new WebSocket.Server({port: socketPort}, () => {
   console.log(`Passei aqui dentro, pela porta ${socketPort}.`);
