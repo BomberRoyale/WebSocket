@@ -1,22 +1,33 @@
-//import WebSocket from "ws";
-const WebSocket = require('ws');
+//import WebSockett from "ws";
+const WebSockett = require('ws');
+//import database_model from "./Models/database_model";
+const database_model = require('./Models/database_model');
 
 const socketPort = process.env.PORT || 3000;
 
-const server = new WebSocket.Server({port: socketPort}, () => {
+const server = new WebSockett.Server({port: socketPort}, () => {
   console.log(`Passei aqui dentro, pela porta ${socketPort}.`);
 });
+
+database_model.connect();
 
 server.on('connection', ws =>{
   console.log('conectado');
 
-ws.on("message", bytes => {
+  ws.on("message", bytes => {
   const message = bytes.toString();
   console.log(message.toString());
   if(message == "Ola SERVER"){
-    ws.send("Ola Cliente");
-  }
-});
+    var a;
+    database_model.loadUser('jeferson', function(err, rows) {
+      if(rows.length > 0){
+        console.log("Existe esse Usuário");
+        a = rows.length;
+        ws.send("Ola Cliente: -" + a);
+      }
+    }); 
+    }
+  });
 
   ws.on('close', ev => {
     console.log('desconectado');
