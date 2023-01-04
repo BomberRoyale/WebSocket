@@ -18,7 +18,7 @@ function database_model() {
 
     this.connect = function (callback) {
 
-      db = mysql.createConnection(config2 || process.env.DATABASE_URL);
+      db = mysql.createConnection(/*config2 ||*/ process.env.DATABASE2_URL);
       db.connect(function (err) {
         if (err) {
           console.error('Erro na conexão mysql: ' + err);
