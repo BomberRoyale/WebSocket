@@ -9,16 +9,23 @@ function database_model() {
       database : "nome_BD"
     }
     var config2 = {
-      host: '185.213.81.154',
+      host: 'sql727.main-hosting.eu',
       user : 'u310558138_bomberroyale',
       password : '20300516JJl@',
       database : "u310558138_bomberroyalepl",
       port : "3306"
     }
+    var config3 = {
+      host: 'sql10.freemysqlhosting.net',
+      user : 'sql10588085',
+      password : 'bXP99KVMwV',
+      database : "sql10588085",
+      port : "3306"
+    }
 
     this.connect = function (callback) {
 
-      db = mysql.createConnection(/*config2 ||*/ process.env.DATABASE2_URL);
+      db = mysql.createConnection(config2 || process.env.DATABASE2_URL);
       db.connect(function (err) {
         if (err) {
           console.error('Erro na conexão mysql: ' + err);
