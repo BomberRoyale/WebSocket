@@ -1,50 +1,63 @@
-//import WebSockett from "ws";
-const WebSockett = require('ws');
-//import database_model from "./Models/database_model";
-//const database_model = require('./Models/database_model');
-const database_model = require('./Models/database_model2');
+import { WebSocket } from "ws";
+import Socket2 from "./core/socket2";
 
-const socketPort = process.env.PORT || 3000;
+const database_model2 = require("./Models/database_model2");
 
-const server = new WebSockett.Server({port: socketPort}, () => {
-  console.log(`Passei aqui dentro, pela porta ${socketPort}.`);
+class Login {
+        
+    VeirificandoLogin(event: string, usuario: string, senha: string, socket: Socket2) {
+        var data:any;
+
+        if (event == "verificaLogin") {
+
+            database_model2.loadUser(usuario, senha, (err: any, rows: any) => {
+                if (rows.length > 0) {
+                    console.log("Existe esse Usuário");
+                    var a = rows.length;
+                    data = {
+                        ev: "Confirma",
+                        valor: a,
+                        situacao: true
+                    };
+                    console.log("esse foi o resultado="+ data.ev + " " + data.valor);
+                    socket.emit("LOGIN", data);
+                    
+                } else {
+                    a = 0;
+                    data = {
+                        ev: "Nega",
+                        valor: a,
+                        situacao: false
+                    };   
+                    socket.emit("LOGIN", data);                
+                }                
+            });
+        }
+    }
+}
+
+const login = new Login();
+
+var porta = process.env.PORT || 3000;
+
+const server = new WebSocket.Server({ port: parseInt(porta.toString()) }, () => {
+    console.log(`O webSocket está conectado pela porta ${porta}.`);
 });
 
-database_model.connect();
+database_model2.connect();
 
-server.on('connection', ws =>{
-  console.log('conectado');
+server.on("connection", ws => {
+    const socket = new Socket2(ws, { open: true });
 
-  ws.on("message", bytes => {
-  const message = bytes.toString();
-  console.log(message.toString());
-  
-  if(message == "Ola SERVER"){
-    var a;
-    database_model.loadUser('jeferson', function(err, rows) {
-      if(rows.length > 0){
-        console.log("Existe esse Usuário");
-        a = rows.length;
-        ws.send("Ola Cliente: -" + a);
-      }
-    }); 
-  }
+    console.log("connectado: " + socket.id);
 
-  if(message == "teste2"){
-    var a;
-    database_model.loadUser('jefersonpkl', function(err, rows) {
-      if(rows.length > 0){
-        console.log("Existe esse Usuário");
-        a = rows.length;
-        ws.send("Nova Busca: -" + a);
-      }
+    socket.on("LOGIN", (event, callback) => {
+        var result = login.VeirificandoLogin(event.ev, event.usuario, event.senha, socket);
+    })
+
+    socket.on("disconnect", event => {
+        console.log("Desconectado");
     });
-  }
 
-  
-  });
-
-  ws.on('close', ev => {
-    console.log('desconectado');
-  });
 });
+

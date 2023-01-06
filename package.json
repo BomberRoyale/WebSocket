@@ -1,21 +1,25 @@
 {
-  "name": "ts",
+  "name": "testenovo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.ts"
+    "start": "ts-node src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^18.11.18",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.1",
     "typescript": "^4.9.4"
   },
   "dependencies": {
     "@types/ws": "^8.5.4",
     "mysql": "^2.18.1",
+    "uuidv4": "^6.2.13",
     "ws": "^8.11.0"
   }
 }
