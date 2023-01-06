@@ -41,7 +41,7 @@ function database_model2() {
   
   this.connect = function (callback) {
     //create mysql connection pool
-    db = mysql.createPool(/*config2 ||*/ process.env.DATABASE_URL);
+    db = mysql.createPool(config2 || process.env.DATABASE_URL);
 
     db.on('connection', function (connection) {
       console.log('DB Connection established');
