@@ -3,6 +3,8 @@ import Socket2 from "./core/socket2";
 
 const database_model2 = require("./Models/database_model2");
 
+const http = require('http');
+
 class Login {
         
     VeirificandoLogin(event: string, usuario: string, senha: string, socket: Socket2) {
@@ -38,9 +40,11 @@ class Login {
 
 const login = new Login();
 
-var porta = process.env.PORT || 3000;
+var porta= process.env.PORT || 3000;
 
-const server = new WebSocket.Server({ port: parseInt(porta.toString()) }, () => {
+var portaa = http.createServer().listen(porta);
+
+const server = new WebSocket.Server({ port: portaa }, () => {
     console.log(`O webSocket está conectado pela porta ${porta}.`);
 });
 
