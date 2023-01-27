@@ -7,12 +7,24 @@ const config_1 = require("./config");
     });*/
 class Dao {
     constructor() {
-        this.identificadordeUsu = {
+        this.buscaGenerico = {
             existUsu: (user, tabela) => {
                 var sql = `SELECT * FROM ${tabela} WHERE usuario = ?`;
                 var valores = [user];
                 return config_1.pool.promise().query(sql, valores);
             },
+        };
+        this.UpdateGenerico = {
+            atualizaTabUsu: (data) => {
+                var valores = data.valores.split(",");
+                var sql = `UPDATE ${data.tabela} SET ${data.comandos} WHERE usuario = ?`;
+                valores.push(data.usuario); // [data.missao1, data.missao2, data.missao3, data.missao4, data.missao5, data.data_base, data.usuario];
+                return config_1.pool.promise().query(sql, valores);
+            }
+            // formatarValores: (data: any) => {
+            //     var dados = data.valores.split(",");    
+            //     return dados;
+            // }
         };
         this.login = {
             logarUsu: (user, senha) => {
@@ -60,6 +72,22 @@ class Dao {
                 var sql = 'INSERT INTO missoesDiaria_usu(usuario, missao1, missao2, missao3, missao4, missao5, data_base) VALUES (?,?,?,?,?,?,?)';
                 var valores = [user, "0", "0", "0", "0", "0", "-1"];
                 return config_1.pool.promise().execute(sql, valores);
+            },
+            BuscaDataBase: (user) => {
+                var sql = 'SELECT data_base FROM missoesDiaria_usu WHERE usuario = ?';
+                var valores = [user];
+                return config_1.pool.promise().query(sql, valores);
+            },
+            UpdateMissesDiariasUsu: (data) => {
+                var sql = 'UPDATE missoesDiaria_usu SET missao1 = ?, missao2 = ?, missao3 = ?, missao4 = ?, missao5 = ?, data_base = ? WHERE usuario = ?';
+                var valores = [data.missao1, data.missao2, data.missao3, data.missao4, data.missao5, data.data_base, data.usuario];
+                return config_1.pool.promise().query(sql, valores);
+            }
+        };
+        this.missoesDiariaTab = {
+            BuscaMissoesDiariaTab: () => {
+                var sql = 'SELECT * FROM missoesDiaria_tab';
+                return config_1.pool.promise().query(sql);
             }
         };
     }

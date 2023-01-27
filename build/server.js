@@ -31,13 +31,47 @@ server.on("connection", ws => {
     socket.on("CADASTRO_USUARIO", (event) => {
         chamadas.cadastroUsu.Cadastrando(event.ev, event.usuario, event.senha, event.nascimento, socket);
     });
-    //inicando player criando linhas nas tabelas
+    //inicando player criando linhas nas tabelas e buscando dados
     socket.on("VERIFICA_TABELA_BD", (event) => {
         if (event.ev == "xp_usu") {
             chamadas.verifTabBDExiEBuscaDados.TabelaXpUsu(event.usuario, socket);
         }
         if (event.ev == "energiaM_usu") {
             chamadas.verifTabBDExiEBuscaDados.TabelaEnergiaMUsu(event.usuario, socket);
+        }
+        if (event.ev == "moedas_usu") {
+            chamadas.verifTabBDExiEBuscaDados.TabelaMoedasUsu(event.usuario, socket);
+        }
+        if (event.ev == "dadosDeJogo_usu") {
+            chamadas.verifTabBDExiEBuscaDados.TabelaDadosDeJogoUsu(event.usuario, socket);
+        }
+        if (event.ev == "missoesDiaria_tab") {
+            chamadas.buscaDadosTabelas.MissoesDiariasTab(event, socket);
+        }
+        if (event.ev == "updateMissoesDiariaUsu") {
+            chamadas.atualizaTab.AtuaMissoesDiariasUsu(event, socket);
+        }
+        //missoesDiaria_usu
+        if (event.ev == "missoesDiaria_usu") {
+            chamadas.verifTabBDExiEBuscaDados.TabelaMissoesDiariaUsu(event.usuario, socket);
+        }
+        else if (event.ev == "data_base") {
+            chamadas.verifTabBDExiEBuscaDados.DataBaseMDiarias(event, socket);
+        }
+    });
+    //Atualizando Tabelas
+    socket.on("ATUALIZA_TABELAS", (event) => {
+        if (event.ev == "energiaM_usu") {
+            chamadas.atualizaTab.AtuaGenericoUsu(event, socket);
+        }
+        if (event.ev == "missoesDiaria_usu") {
+            chamadas.atualizaTab.AtuaGenericoUsu(event, socket);
+        }
+        if (event.ev == "moedas_usu") {
+            chamadas.atualizaTab.AtuaGenericoUsu(event, socket);
+        }
+        if (event.ev == "SalvaXpOnlineFimJogo") {
+            chamadas.atualizaTab.AtuaGenericoUsu(event, socket);
         }
     });
     socket.on("disconnect", event => {

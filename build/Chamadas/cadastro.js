@@ -9,7 +9,7 @@ class CadastroUsuario {
     Cadastrando(event, usuario, senha, nascimento, socket) {
         var data;
         if (event == "cadastrarUsuario") {
-            dao.identificadordeUsu.existUsu(usuario, "login_usu")
+            dao.buscaGenerico.existUsu(usuario, "login_usu")
                 .then(([result]) => {
                 var texto = JSON.parse(JSON.stringify(result));
                 if (texto.length > 0) {

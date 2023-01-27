@@ -31,7 +31,7 @@ export default class Chamadas {
                             };
                             console.log("Não cadastrado");
                         }
-                        socket.emit("LOGIN", data); // resposta coletada enviando o resultado da pesquisa.  
+                        socket.emit("LOGIN", data); // resposta coletada enviando o resultado da pesquisa.
 
                     }).catch(err => {
                         console.log(err);
@@ -41,7 +41,7 @@ export default class Chamadas {
                             valor: -1,
                             situacao: false
                         };
-                        socket.emit("LOGIN", data); // resposta coletada enviando o resultado da pesquisa. 
+                        socket.emit("LOGIN", data); // resposta coletada enviando o resultado da pesquisa.
                     });
 
                 /*database_model3.loadUser(usuario, senha, (err: any, rows: any) => {
@@ -54,7 +54,7 @@ export default class Chamadas {
                             situacao: true
                         };
                         console.log("esse foi o resultado=" + data.ev + " " + data.valor);
-    
+
                     } else {
                         a = 0;
                         data = {
@@ -63,7 +63,7 @@ export default class Chamadas {
                             situacao: false
                         };
                     }
-                    socket.emit("LOGIN", data); // resposta coletada enviando o resultado da pesquisa.             
+                    socket.emit("LOGIN", data); // resposta coletada enviando o resultado da pesquisa.
                 });*/
             }
         }
@@ -74,7 +74,7 @@ export default class Chamadas {
             var data: any;
 
             if (event == "cadastrarUsuario") {
-                dao.identificadordeUsu.existUsu(usuario, "login_usu")
+                dao.buscaGenerico.existUsu(usuario, "login_usu")
                     .then(([result]) => {
                         var texto = JSON.parse(JSON.stringify(result));
                         if (texto.length > 0) {
@@ -139,93 +139,27 @@ export default class Chamadas {
                             situacao: a
                         };
                     }
-                    socket.emit("CADASTRO_USUARIO", data); // resposta coletada enviando o resultado da pesquisa.         
+                    socket.emit("CADASTRO_USUARIO", data); // resposta coletada enviando o resultado da pesquisa.
                 });*/
             }
         }
     };
 
     verifTabBDExiEBuscaDados = {
-        VerificaTabelaBD(event: string, usuario: string, socket: Socket2) {
-            var data: any;
-
-            if (event == "xp_usu") {
-                console.log("passei.");
-                var quantabelas: number = 0;
-
-
-
-
-
-                //         //tabela dadosDeJogo_usu
-                //         dao.identificadordeUsu.existUsu(usuario, "dadosDeJogo_usu")
-                //         .then(([result]) => {
-                //             var texto = JSON.parse(JSON.stringify(result));
-                //             console.log(texto);
-                //             quantabelas++;
-                //             if(texto == ""){
-                //                 console.log("cadastra dadosDeJogo_usu");
-                //                 dao.dadosDeJogoUsu.criarLinha(usuario).then(() =>{
-                //                     console.log('fim cadastro em dadosDeJogo_usu. ' + quantabelas);
-                //                     this.TerminadoCriarLinhas(quantabelas, socket);
-                //                 }).catch(err => {
-                //                     console.log("Erro ao criar linha dadosDeJogo_usu " + err)
-                //                     data = {
-                //                         ev: "erro",
-                //                         situacao: -1
-                //                     };
-                //                     socket.emit("VERIFICA_TABELA_BD", data); // resposta coletada enviando o resultado da pesquisa.
-                //                 });
-                //             }else{
-                //                 this.TerminadoCriarLinhas(quantabelas, socket);
-                //             }
-                //         }).catch(err => {
-                //             console.log("Erro ao checar se existe um usuário com mesmo nome dadosDeJogo_usu " + err)
-                //             data = {
-                //                 ev: "erro",
-                //                 situacao: -1
-                //             };
-                //             socket.emit("VERIFICA_TABELA_BD", data); // resposta coletada enviando o resultado da pesquisa.
-                //         });
-
-                //         //tabela missoesDiaria_usu
-                //         dao.identificadordeUsu.existUsu(usuario, "missoesDiaria_usu")
-                //         .then(([result]) => {
-                //             var texto = JSON.parse(JSON.stringify(result));
-                //             console.log(texto);
-                //             quantabelas++;
-                //             if(texto == ""){
-                //                 console.log("cadastra missoesDiaria_usu");
-                //                 dao.missoesDiariaUsu.criarLinha(usuario).then(() =>{
-                //                     console.log('fim cadastro em missoesDiaria_usu. ' + quantabelas);
-                //                     this.TerminadoCriarLinhas(quantabelas, socket);
-                //                 }).catch(err => {
-                //                     console.log("Erro ao criar linha missoesDiaria_usu " + err)
-                //                     data = {
-                //                         ev: "erro",
-                //                         situacao: -1
-                //                     };
-                //                     socket.emit("VERIFICA_TABELA_BD", data); // resposta coletada enviando o resultado da pesquisa.
-                //                 });
-                //             }else{
-                //                 this.TerminadoCriarLinhas(quantabelas, socket);
-                //             }
-                //         }).catch(err => {
-                //             console.log("Erro ao checar se existe um usuário com mesmo nome missoesDiaria_usu " + err)
-                //             data = {
-                //                 ev: "erro",
-                //                 situacao: -1
-                //             };
-                //             socket.emit("VERIFICA_TABELA_BD", data); // resposta coletada enviando o resultado da pesquisa.
-                //         });
-            }
+        ResErroGener(mensagemLog: string, err: any, evento: string, numeroErro: number, codigo: string, socket: Socket2) {
+            console.log(mensagemLog + err)
+            var data = {
+                ev: evento,
+                situacao: numeroErro
+            };
+            socket.emit(codigo, data); // resposta coletada enviando o resultado da pesquisa.
         },
 
         TabelaXpUsu(usuario: string, socket: Socket2) {
             var data: any;
             console.log("passei.");
 
-            dao.identificadordeUsu.existUsu(usuario, "xp_usu")
+            dao.buscaGenerico.existUsu(usuario, "xp_usu")
                 .then(([result]) => {
                     var texto = JSON.parse(JSON.stringify(result));
                     console.log(texto[0]);
@@ -265,7 +199,7 @@ export default class Chamadas {
 
         TabelaEnergiaMUsu(usuario: string, socket: Socket2) {
             var data: any;
-            dao.identificadordeUsu.existUsu(usuario, "energiaM_usu")
+            dao.buscaGenerico.existUsu(usuario, "energiaM_usu")
                 .then(([result]) => {
                     var texto = JSON.parse(JSON.stringify(result));
                     console.log(texto);
@@ -306,7 +240,7 @@ export default class Chamadas {
 
         TabelaMoedasUsu(usuario: string, socket: Socket2) {
             var data: any;
-            dao.identificadordeUsu.existUsu(usuario, "moedas_usu")
+            dao.buscaGenerico.existUsu(usuario, "moedas_usu")
                 .then(([result]) => {
                     var texto = JSON.parse(JSON.stringify(result));
                     console.log(texto);
@@ -314,14 +248,13 @@ export default class Chamadas {
                         console.log("cadastra moedas_usu");
                         dao.moedasUsu.criarLinha(usuario).then(() => {
                             console.log('fim cadastro em moedas_usu.');
-                            // data = {
-                            //     ev: "confirmado",
-                            //     usuario: usuario,
-                            //     quant_EM: 0,
-                            //     horario: 0,
-                            //     data_base: 0
-                            // };
-                            // socket.emit("MOEDAS_USU_TABELA_BD", data);
+                            data = {
+                                ev: "confirmado",
+                                usuario: usuario,
+                                pepitas: 0,
+                                chaves: 0
+                            };
+                            socket.emit("MOEDAS_USU_TABELA_BD", data);
                         }).catch(err => {
                             console.log("Erro ao criar linha moedas_usu " + err)
                             data = {
@@ -332,7 +265,7 @@ export default class Chamadas {
                         });
                     } else {
                         texto[0]["ev"] = "confirmado";
-                        //socket.emit("MOEDAS_USU_TABELA_BD", texto[0]);
+                        socket.emit("MOEDAS_USU_TABELA_BD", texto[0]);
                     }
                 }).catch(err => {
                     console.log("Erro ao checar se existe um usuário com mesmo nome moedas_usu " + err)
@@ -342,16 +275,175 @@ export default class Chamadas {
                     };
                     socket.emit("VERIFICA_TABELA_BD", data); // resposta coletada enviando o resultado da pesquisa.
                 });
-        }
+        },
 
-        // TerminadoCriarLinhas(quant: number, socket: Socket2) {
-        //     if (quant == 6) {
-        //         var data = {
-        //             ev: "confirmado",
-        //             situacao: 1
-        //         };
-        //         socket.emit("VERIFICA_TABELA_BD", data); // resposta coletada enviando o resultado da pesquisa.
-        //     }
-        // }
+        TabelaDadosDeJogoUsu(usuario: string, socket: Socket2) {
+            var data: any;
+            dao.buscaGenerico.existUsu(usuario, "dadosDeJogo_usu")
+                .then(([result]) => {
+                    var texto = JSON.parse(JSON.stringify(result));
+                    console.log(texto);
+                    if (texto == "") {
+                        console.log("cadastra dadosDeJogo_usu");
+                        dao.dadosDeJogoUsu.criarLinha(usuario).then(() => {
+                            console.log('fim cadastro em dadosDeJogo_usu.');
+                            data = {
+                                ev: "confirmado",
+                                usuario: usuario,
+                                vitorias: 0, derrotas: 0, partidas: 0, eliminarOponente: 0, danoOponente: 0,
+                                caixas: 0, bombasClassS: 0, chavesP: 0, estrelasP: 0, bombasClassP: 0, forcaBombaP: 0, peDeVentoP: 0
+                            };
+                            socket.emit("DADOSDEJOGO_USU_TABELA_BD", data);
+                        }).catch(err => {
+                            console.log("Erro ao criar linha dadosDeJogo_usu " + err)
+                            data = {
+                                ev: "erro",
+                                situacao: -1
+                            };
+                            socket.emit("VERIFICA_TABELA_BD", data); // resposta coletada enviando o resultado da pesquisa.
+                        });
+                    } else {
+                        texto[0]["ev"] = "confirmado";
+                        socket.emit("DADOSDEJOGO_USU_TABELA_BD", texto[0]);
+                    }
+                }).catch(err => {
+                    console.log("Erro ao checar se existe um usuário com mesmo nome dadosDeJogo_usu " + err)
+                    data = {
+                        ev: "erro",
+                        situacao: -1
+                    };
+                    socket.emit("VERIFICA_TABELA_BD", data); // resposta coletada enviando o resultado da pesquisa.
+                });
+        },
+
+        TabelaMissoesDiariaUsu(usuario: string, socket: Socket2) {
+            var data: any;
+            dao.buscaGenerico.existUsu(usuario, "missoesDiaria_usu")
+                .then(([result]) => {
+                    var texto = JSON.parse(JSON.stringify(result));
+                    console.log(texto);
+                    if (texto == "") {
+                        console.log("cadastra missoesDiaria_usu");
+                        dao.missoesDiariaUsu.criarLinha(usuario).then(() => {
+                            console.log('fim cadastro em missoesDiaria_usu.');
+                            data = {
+                                ev: "confirmado", situacao: 2, usuario: usuario,
+                                missao1: 0, missao2: 0, missao3: 0, missao4: 0, missao5: 0, data_base: -1
+                            };
+                            socket.emit("MISSOESDIARIAS_USU_TABELA_BD", data);
+                        }).catch(err => {
+                            this.ResErroGener("Erro ao criar linha missoesDiaria_usu ",
+                                err, "erro", -1, "VERIFICA_TABELA_BD", socket);
+                        });
+                    } else {
+                        texto[0]["ev"] = "confirmado";
+                        texto[0]["situacao"] = 2;
+                        socket.emit("MISSOESDIARIAS_USU_TABELA_BD", texto[0]);
+                    }
+                }).catch(err => {
+                    this.ResErroGener("Erro ao checar se existe um usuário com mesmo nome missoesDiaria_usu ",
+                        err, "erro", -1, "VERIFICA_TABELA_BD", socket);
+                });
+        },
+
+        DataBaseMDiarias(dados: any, socket: Socket2) {
+            var data: any;
+            dao.buscaGenerico.existUsu(dados.usuario, "missoesDiaria_usu")
+                .then(([result]) => {
+                    var texto = JSON.parse(JSON.stringify(result));
+                    console.log(texto);
+                    if (texto == "") {
+                        console.log("cadastra missoesDiaria_usu");
+                        dao.missoesDiariaUsu.criarLinha(dados.usuario).then(() => {
+                            console.log('fim cadastro em missoesDiaria_usu.');
+                            data = { ev: "data_base", situacao: 0, data_base: -1 };
+                            socket.emit(dados.socket_data, data);
+                        }).catch(err => {
+                            this.ResErroGener("Erro ao criar linha DataBaseMDiarias ",
+                                err, "erro", -1, dados.socket_erro, socket);
+                        });
+                    } else {
+                        texto[0]["ev"] = "data_base";
+                        texto[0]["situacao"] = 0;
+                        socket.emit(dados.socket_data, texto[0]);
+                    }
+                }).catch(err => {
+                    this.ResErroGener("Erro ao checar se existe um usuário com mesmo nome DataBaseMDiarias ",
+                        err, "erro", -1, dados.socket_erro, socket);
+                });
+        }
+    };
+
+    buscaDadosTabelas = {
+        MissoesDiariasTab(dados:any, socket: Socket2) {
+            var data: any;
+            dao.missoesDiariaTab.BuscaMissoesDiariaTab()
+                .then(([result]) => {
+                    var texto = JSON.parse(JSON.stringify(result));
+                    //console.log(result);
+                    if (texto == "") {
+                        console.log("Dados não encontrados BuscaMissoesDiariaTab");
+                        texto[0]["ev"] = "erro";
+                        socket.emit(dados.socket_data, texto[0]);
+                    } else {
+
+                        data = {
+                            0: { ev: "confirmado" },
+                            1: texto[0], 2: texto[1], 3: texto[2], 4: texto[3], 5: texto[4]
+                        }
+                        console.log(data);
+                        //texto[0]["ev"] = "confirmado";
+                        socket.emit(dados.socket_data, data);
+                    }
+                }).catch(err => {
+                    new Chamadas().verifTabBDExiEBuscaDados.ResErroGener(
+                        "Erro ao checar se existe um usuário com mesmo nome BuscaMissoesDiariaTab ",
+                        err, "erro", -1, dados.socket_erro, socket);
+                });
+        }
+    };
+
+    atualizaTab = {
+        AtuaGenericoUsu(dados: any, socket: Socket2){
+            var data: any;
+            console.log("Atualiza a tab.: " + dados.tabela);
+            dao.UpdateGenerico.atualizaTabUsu(dados)
+                .then(([result]) => {
+                    var texto = JSON.parse(JSON.stringify(result));
+                    if (texto["affectedRows"] == 1) {
+                        console.log("ok");
+                        data = {
+                            ev: "confirmado",
+                            situacao: 1
+                        }
+                        socket.emit(dados.socket_data, data);
+                    }
+                }).catch(err => {
+                    new Chamadas().verifTabBDExiEBuscaDados.ResErroGener(
+                        "Erro ao atualizar a tabela " + dados.tabela,
+                        err, "erro", -1, dados.socket_erro, socket);
+                });
+        },
+        
+        AtuaMissoesDiariasUsu(dados: any, socket: Socket2) {
+            var data: any;
+            console.log("AtuaMissoesDiariasUsu");
+            dao.missoesDiariaUsu.UpdateMissesDiariasUsu(dados)
+                .then(([result]) => {
+                    var texto = JSON.parse(JSON.stringify(result));
+                    if (texto["affectedRows"] == 1) {
+                        console.log("ok");
+                        data = {
+                            ev: "confirmado",
+                            situacao: 1
+                        }
+                        socket.emit(dados.socket_data, data);
+                    }
+                }).catch(err => {
+                    new Chamadas().verifTabBDExiEBuscaDados.ResErroGener(
+                        "Erro ao checar se existe um usuário com mesmo nome BuscaMissoesDiariaTab ",
+                        err, "erro", -1, dados.socket_erro, socket);
+                });
+        }       
     };
 }
