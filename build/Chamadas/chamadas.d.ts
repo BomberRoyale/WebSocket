@@ -21,5 +21,6 @@ export default class Chamadas {
     atualizaTab: {
         AtuaGenericoUsu(dados: any, socket: Socket2): void;
         AtuaMissoesDiariasUsu(dados: any, socket: Socket2): void;
+        AtuaUpNivel(dados: any, socket: Socket2): void;
     };
 }

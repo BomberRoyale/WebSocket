@@ -22,12 +22,14 @@ export default class Dao {
             var sql = `UPDATE ${data.tabela} SET ${data.comandos} WHERE usuario = ?`;
             valores.push(data.usuario); // [data.missao1, data.missao2, data.missao3, data.missao4, data.missao5, data.data_base, data.usuario];
             return pool.promise().query(sql, valores);
-        }
+        },
 
-        // formatarValores: (data: any) => {
-        //     var dados = data.valores.split(",");    
-        //     return dados;
-        // }
+        atualizaTabUsuAux: (usuario: any, valor: any, tabela: any, comandos: any) => {
+            var valores = valor.split(",");
+            var sql = `UPDATE ${tabela} SET ${comandos} WHERE usuario = ?`;
+            valores.push(usuario);
+            return pool.promise().query(sql, valores);
+        }
     };
 
     login = {

@@ -73,6 +73,9 @@ server.on("connection", ws => {
         if (event.ev == "SalvaXpOnlineFimJogo") {
             chamadas.atualizaTab.AtuaGenericoUsu(event, socket);
         }
+        if (event.ev == "AtualizaNivelOnline") {
+            chamadas.atualizaTab.AtuaUpNivel(event, socket);
+        }
     });
     socket.on("disconnect", event => {
         console.log("Desconectado");

@@ -426,6 +426,33 @@ class Chamadas {
                 }).catch(err => {
                     new Chamadas().verifTabBDExiEBuscaDados.ResErroGener("Erro ao checar se existe um usuário com mesmo nome BuscaMissoesDiariaTab ", err, "erro", -1, dados.socket_erro, socket);
                 });
+            },
+            AtuaUpNivel(dados, socket) {
+                var data;
+                console.log("Atualiza a tab.: " + dados.tabela);
+                dao.UpdateGenerico.atualizaTabUsu(dados)
+                    .then(([result]) => {
+                    var texto = JSON.parse(JSON.stringify(result));
+                    if (texto["affectedRows"] == 1) {
+                        console.log("ok");
+                        dao.UpdateGenerico.atualizaTabUsuAux(dados.usuario, dados.valores2, dados.tabela2, dados.comandos2)
+                            .then(([result]) => {
+                            var texto = JSON.parse(JSON.stringify(result));
+                            if (texto["affectedRows"] == 1) {
+                                console.log("ok");
+                                data = {
+                                    ev: "confirmado",
+                                    situacao: 1
+                                };
+                                socket.emit(dados.socket_data, data);
+                            }
+                        }).catch(err => {
+                            new Chamadas().verifTabBDExiEBuscaDados.ResErroGener("Erro ao atualizar tabela: " + dados.tabela2, err, "erro", -1, dados.socket_erro, socket);
+                        });
+                    }
+                }).catch(err => {
+                    new Chamadas().verifTabBDExiEBuscaDados.ResErroGener("Erro ao atualizar a tabela: " + dados.tabela, err, "erro", -1, dados.socket_erro, socket);
+                });
             }
         };
     }

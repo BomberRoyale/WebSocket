@@ -20,11 +20,13 @@ class Dao {
                 var sql = `UPDATE ${data.tabela} SET ${data.comandos} WHERE usuario = ?`;
                 valores.push(data.usuario); // [data.missao1, data.missao2, data.missao3, data.missao4, data.missao5, data.data_base, data.usuario];
                 return config_1.pool.promise().query(sql, valores);
+            },
+            atualizaTabUsuAux: (usuario, valor, tabela, comandos) => {
+                var valores = valor.split(",");
+                var sql = `UPDATE ${tabela} SET ${comandos} WHERE usuario = ?`;
+                valores.push(usuario);
+                return config_1.pool.promise().query(sql, valores);
             }
-            // formatarValores: (data: any) => {
-            //     var dados = data.valores.split(",");    
-            //     return dados;
-            // }
         };
         this.login = {
             logarUsu: (user, senha) => {
