@@ -64,7 +64,7 @@ class Dao {
         };
         this.dadosDeJogoUsu = {
             criarLinha: (user) => {
-                var sql = 'INSERT INTO dadosDeJogo_usu(usuario, vitorias, derrotas, partidas, eliminarOponente, danoOponente, caixas, bombasClassS, chavesP, estrelasP, bombasClassP, forcaBombaP, peDeVentoP) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                var sql = 'INSERT INTO dadosDeJogo_usu(usuario, vitorias, derrotas, partidas, eliminarOponente, danoOponente, caixasEstouradas, bombasClassS, chaveMPartida, estrelasP, bombasClassP, forcaBombaP, peDeVentoP) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
                 var valores = [user, "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"];
                 return config_1.pool.promise().execute(sql, valores);
             }

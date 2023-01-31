@@ -290,8 +290,8 @@ export default class Chamadas {
                             data = {
                                 ev: "confirmado",
                                 usuario: usuario,
-                                vitorias: 0, derrotas: 0, partidas: 0, eliminarOponente: 0, danoOponente: 0,
-                                caixas: 0, bombasClassS: 0, chavesP: 0, estrelasP: 0, bombasClassP: 0, forcaBombaP: 0, peDeVentoP: 0
+                                vitorias: 0, derrotas: 0, partidas: 0, eliminarOponente: 0, danoOponente: 0, caixasEstouradas: 0, 
+                                bombasClassS: 0, chaveMPartida: 0, estrelasP: 0, bombasClassP: 0, forcaBombaP: 0, peDeVentoP: 0
                             };
                             socket.emit("DADOSDEJOGO_USU_TABELA_BD", data);
                         }).catch(err => {
